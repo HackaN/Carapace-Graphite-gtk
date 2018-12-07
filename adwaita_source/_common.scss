@@ -1476,12 +1476,14 @@ headerbar {
   border-style: solid;
   border-color: $alt_borders_color;
   border-radius: 0;
-
-  @include headerbar_fill(darken($bg_color, 10%));
+  //@include headerbar_fill(darken($bg_color, 0%));
+  //@include headerbar_fill($hb_color);
+  background-color: $hb_color;
+  color: rgb(230,230,230); // lägger till för att skriva över mörk text som annars blir i.o.m ljust fönster
 
   &:backdrop {
     border-color: $backdrop_borders_color;
-    background-color: $bg_color;
+    background-color: $hb_color;
     background-image: none;
     box-shadow: inset 0 1px $top_hilight;
 
@@ -1647,17 +1649,7 @@ headerbar {
     }
   }
 
-  .solid-csd & {
-    &:backdrop, & {
-      &:dir(rtl), &:dir(ltr) { // specificity bump
-        margin-left: -1px;
-        margin-right: -1px;
-        margin-top: -1px;
-        border-radius: 0;
-        box-shadow: none;
-      }
-    }
-  }
+
 }
 
 headerbar {
@@ -1710,11 +1702,11 @@ headerbar { // headerbar border rounding
   }
 }
 
-.titlebar:not(headerbar) {
+.titlebar:not(headerbar){
   window.csd > & {
     // in csd we assume every titlebar is a headerbar so reset anything, this is needed for split toolbars cases
     padding: 0;
-    background-color: transparent;
+    background-color: none;
     background-image: none;
     border-style: none;
     border-color: transparent;
@@ -1724,7 +1716,13 @@ headerbar { // headerbar border rounding
   separator { background-color: $borders_color; }  // FIXME: use darker border?
 
   @extend %titlebar;
+  color: red;
 }
+
+headerbar {
+  background-color: red !important;
+}
+
 
 // Development versions of apps to use a differently styled headerbar
 
@@ -3804,7 +3802,8 @@ messagedialog { // Message Dialog styling
   .titlebar {
     min-height: 20px;
     background-image: none;
-    background-color: $bg_color;
+    //background-color: $bg_color;
+    background-color: $hb_color;
     border-style: none;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
@@ -3845,7 +3844,8 @@ filechooser {
     &:backdrop { border-top-color: $backdrop_borders_color; }
   }
 
-  #pathbarbox { border-bottom: 1px solid $bg_color; }
+  //#pathbarbox { border-bottom: 1px solid $bg_color;
+#pathbarbox { border-bottom: 1px solid $hb_color; }
 }
 
 filechooserbutton:drop(active) {
@@ -3859,7 +3859,8 @@ filechooserbutton:drop(active) {
  ***********/
 .sidebar {
   border-style: none;
-  background-color: mix($bg_color, $base_color, 50%);
+  //background-color: mix($bg_color, $base_color, 50%);
+  background-color: mix($hb_color, $base_color, 50%);
 
   &:not(separator) {
     @at-root %sidebar_left,
@@ -4387,14 +4388,16 @@ decoration {
   border-radius: 7px 7px 0 0;
   // lamefun trick to get rounded borders regardless of CSD use
   border-width: 0px;
-
   // this needs to be transparent
   // see bug #722563
-  $_wm_border: if($variant=='light', transparentize(black, 0.77), transparentize($borders_color, 0.1));
-  $_wm_border_backdrop: if($variant=='light', transparentize(black, 0.82), transparentize($borders_color, 0.1));
+  $_wm_border: if($variant=='light', transparentize($borders_color, 0.77), transparentize($borders_color, 0.1));
+
+  $_wm_border_backdrop: if($variant=='light', transparentize($borders_color, 0.82), transparentize($borders_color, 0.1));
+  // kant för ofokuserat fönster...
 
   box-shadow: 0 3px 9px 1px transparentize(black, 0.5),
               0 0 0 1px $_wm_border; //doing borders with box-shadow
+              // färg säts med wm_border ovan som säts i _colors med border_colors <- bg_color
 
   // FIXME rationalize shadows
 

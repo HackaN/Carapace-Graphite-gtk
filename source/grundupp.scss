@@ -1,0 +1,253 @@
+/* en sass från grunden */
+
+/************************
+*       värden          *
+************************/
+
+$lightBase: rgb(230,230,230);
+$darkBase: rgb(45,50,55);
+$view: rgb(200,200,200);
+$headerbar: rgb(45,50,55);
+$headerbarText: rgb(240,240,240);
+$button: rgb(240,240,240);
+$brightText: rgb(240,240,240);
+$darkText: rgb(30,30,30);
+$hoverShadow: 0 0 3px rgba(0,0,0,.5);
+$windowBorder: .5px solid darken($headerbar, 10%);
+$windowShadow: 0 0 10px rgba(0,0,0,.7);
+
+$roundCorners: 6px 6px 6px 6px;
+$tabRadius: 0 0 6px 6px;
+$tabBorder: 0 .5px .5px .5px solid darken($headerbar, 10%);
+$tabShadow: 1px 0 2px black;
+
+// hover...
+$brightText_Hover: $darkText;
+$brightText_HoverBackground: rgb(190,190,190);
+
+
+// Backdrop-färger... Gör dom mörkare osv, tänker mig lite shade-effekt för att framhäva fokuserat fönster
+
+$lightBase_backdrop: darken($lightBase, 10%);
+$darkBase_backdrop: rgb(45,50,55);
+$view_backdrop: rgb(200,200,200);
+$headerbar_backdrop: darken($headerbar, 5%);
+$headerbarText_backdrop: darken($headerbarText, 5%);
+$button_backdrop: rgb(240,240,240);
+$brightText_backdrop: rgb(240,240,240);
+$darkText_backdrop: darken($darkText, 0%); // det räcker med att bakgrunden blir dämpad
+$windowShadow_backdrop: 0 0 10px rgba(0,0,0,.3); // kör samma storlek för annars så hoppar fönstrena
+
+
+// Insensitive-färger...
+
+$brightText_insensitive: darken($brightText, 20%);
+
+/************************
+*       nodes           *
+************************/
+
+.background {
+  color: $darkText;
+  background-color: $lightBase;
+  border-radius: 0 0 4px 4px; // för att få nedre hörn i fönster rundade. Dom är 2px mindre för att komma närmre spetsarna
+  // dock så får vi saker som petar ut en pixel vid visning av t.ex. media. FAst om man aktiverar t.ex. statuspanel så försvinner utstickande pixlar...
+
+  &:backdrop {
+    background-color: $lightBase_backdrop;
+  }
+}
+
+headerbar,
+menubar {
+  padding: 5px;
+  background-color: $headerbar;
+  color: $headerbarText;
+  &:backdrop {
+    background-color: $headerbar_backdrop;
+    color: $headerbarText_backdrop;
+  }
+  > menuitem {
+  min-height: 16px;
+  padding: 4px 8px;
+  box-shadow: none;
+
+  &:hover {
+    box-shadow: $hoverShadow;
+    color: $brightText;
+  }
+
+  &:disabled {
+    color: $brightText_insensitive;
+    box-shadow: none;
+    }
+  }
+}
+
+headerbar {
+  border-radius: 6px 6px 0 0;
+  font-size: 1.1em;
+  .maximized &,
+  .fullscreen &,
+  .tiled &,
+  .tiled-top &,
+  .tiled-left &,
+  .tiled-right &,
+  .tiled-bottom & {
+    border-radius: 0; // i.o.m att vi rundat här också så måste vi återställa vid maximerat osv
+  }
+}
+
+menu,
+.menu,
+.context-menu {
+  background-color: $headerbar;
+  color: $headerbarText;
+  box-shadow: $hoverShadow;
+  border: $windowBorder;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-radius: $roundCorners;
+  //border-radius: 0;
+  > menuitem {
+    min-height: 16px;
+    padding: 4px 8px;
+    box-shadow: none;
+
+    &:hover {
+      color: $brightText_Hover;
+      background-color: $brightText_HoverBackground;
+    }
+
+    &:disabled {
+      color: $brightText_insensitive;
+      box-shadow: none;
+    }
+  }
+}
+
+popover.background {
+  background-color: $headerbar;
+  border-radius: $roundCorners;
+  box-shadow: $hoverShadow;
+  border: $windowBorder;
+  color: $brightText;
+}
+popover>arrow {
+  background-color: $headerbar;
+  border: 1px solid $windowBorder;
+}
+
+popover>contents.menu {
+  padding: 8px;
+  background-color: white;
+  margin: 0px;
+}
+
+popover>contents {
+  padding: 2px;
+  margin: 0px;
+}
+
+popover>contents.background {
+  border-radius: 5px;
+  background-color: $headerbar;
+  box-shadow: 0 1px 2px transparentize(black, 0.7);
+  .csd &, & { border: 1px solid $windowBorder; }
+
+  &:backdrop {
+    background-color: $headerbar_backdrop;
+    box-shadow: none;
+  }
+}
+
+
+
+/****************/
+
+/************************
+*   fan vad jag letade! *
+*   Gedit special-bajs  *
+************************/
+.gedit-search-slider {
+  padding: 4px;
+  border-radius: $tabRadius;
+  border: $tabBorder;
+  background-color: $headerbar;
+  color: $brightText;
+  box-shadow: $tabShadow;
+}
+
+/****************/
+
+
+
+  tabs {
+  background-color: $headerbar_backdrop;
+  color: $headerbarText;
+  font-size: 1em;
+  }
+  tab, button {
+    background-color: $headerbar_backdrop;
+    color: $headerbarText_backdrop;
+    box-shadow: inset 1px 0 2px black;
+    border: none;
+    border-radius: 0;
+    padding: 5px;
+    &:checked {
+      background-color: $headerbar;
+      color: $headerbarText;
+      box-shadow: $tabShadow;
+      border: $tabBorder;
+      border-radius: $tabRadius;
+    }
+    &:checked:hover {
+      background-color: brighten($headerbar, 5%);
+    }
+    &:backdrop {
+      background-color: $headerbar_backdrop;
+      color: $headerbarText_backdrop;
+      border: none;
+      border-radius: 0;
+    }
+    &:hover {
+      background-color: brighten($headerbar_backdrop, 5%);
+      color: $headerbarText;
+    }
+  }
+
+/*
+notebook > header > tabs,
+notebook > header > tabs > arrow {
+  background-color: red;
+}*/
+
+/*************************/
+decoration {
+  border: $windowBorder;
+  border-radius: $roundCorners; // alla hörn rundade, mycket sexigare
+  // FIXME: media-innehåll sticker ut en pixel i hörnen. Går att lösa fult med padding-bottom: .5px men då får man en tjock kant. Kanske om vi kör med dark växel tema så kan vi bara "utöka" bakgrundsfärgen
+  background-color: $headerbar;
+.csd & {
+    box-shadow: $windowShadow;
+    &:backdrop {
+      box-shadow: $windowShadow_backdrop; // undvik hoppande fönster genom att ha samma storlek på skuggor
+      transition: 200ms ease-out;
+    }
+  }
+  .maximized &,
+  .fullscreen &,
+  .tiled &,
+  .tiled-top &,
+  .tiled-left &,
+  .tiled-right &,
+  .tiled-bottom & {
+    border-radius: 0;
+  }
+}
+
+.view,
+.content-view {
+  background-color: $view;
+  margin-bottom: 1px;
+}
