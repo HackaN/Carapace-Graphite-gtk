@@ -6,14 +6,17 @@
 
 $lightBase: rgb(230,230,230);
 $darkBase: rgb(45,50,55);
-$view: rgb(200,200,200);
+$view: rgb(200,0,0);
 $headerbar: rgb(45,50,55);
 $headerbarText: rgb(240,240,240);
 $button: rgb(240,240,240);
 $brightText: rgb(240,240,240);
 $darkText: rgb(30,30,30);
+$lightButton: rgb(185,190,195);
 $hoverShadow: 0 0 3px rgba(0,0,0,.5);
-$windowBorder: .5px solid darken($headerbar, 10%);
+//$windowBorder: .5px solid darken($headerbar, 10%);
+$windowBorder: .5px solid rgba(0,0,0,.5);
+$grabBorder: 3px solid rgba(200,0,0,0);
 $windowShadow: 0 0 10px rgba(0,0,0,.7);
 
 $roundCorners: 6px 6px 6px 6px;
@@ -43,19 +46,71 @@ $windowShadow_backdrop: 0 0 10px rgba(0,0,0,.3); // kör samma storlek för anna
 
 $brightText_insensitive: darken($brightText, 20%);
 
+// Funktioner
+%button {
+      background-color: $lightButton;
+      border: .5px solid rgba(0,0,0,1);
+      border-radius: 6px;
+      font-weight: 400;
+      font-size: 1em;
+      color: #222;
+      text-shadow: 0 1px 1px rgba(255,255,255,.55);
+      icon-shadow: 0 1px 1px rgba(255,255,255,.55);
+      padding: 3px 5px 3px 5px;
+      box-shadow: $hoverShadow;
+      margin: 2px;
+      &:hover {
+        background-color: lighten($lightButton, 10%);
+      }
+      &:disabled {
+        background-color: transparent;
+        text-shadow: 0 1px 1px rgba(255,255,255,.15);
+        icon-shadow: 0 1px 1px rgba(255,255,255,.15);
+        box-shadow: none;
+      }
+    }
+%buttonNude {
+  background-color: transparent;
+  border: none;
+  border-radius: $roundCorners;
+  font-size: 1em;
+  padding: 3px 5px 3px 5px;
+  font-weight: 400;
+  text-shadow: 0 1px 1px rgba(0,0,0,.55);
+  icon-shadow: 0 1px 1px rgba(0,0,0,.55);
+  box-shadow: none;
+  color: $headerbarText;
+  margin: 2px;
+    &:hover {
+      background-color: lighten($lightButton, 10%);
+      box-shadow: $hoverShadow;
+      color: #222;
+      text-shadow: 0 1px 1px rgba(255,255,255,.55);
+      icon-shadow: 0 1px 1px rgba(255,255,255,.55);
+    }
+    &:disabled {
+      color: darken($headerbarText, 50%);
+    }
+}
+
 /************************
 *       nodes           *
 ************************/
 
 .background {
   color: $darkText;
+  font-size: 1em;
   background-color: $lightBase;
-  border-radius: 0 0 4px 4px; // för att få nedre hörn i fönster rundade. Dom är 2px mindre för att komma närmre spetsarna
+  border-radius: 0 0 6px 6px; // för att få nedre hörn i fönster rundade. Dom är 2px mindre för att komma närmre spetsarna
   // dock så får vi saker som petar ut en pixel vid visning av t.ex. media. FAst om man aktiverar t.ex. statuspanel så försvinner utstickande pixlar...
-
+  border: $windowBorder;
+  padding-bottom: 3px; // vet inte om denna funkar..
   &:backdrop {
     background-color: $lightBase_backdrop;
   }
+}
+button {
+  @extend %button;
 }
 
 headerbar,
@@ -63,6 +118,9 @@ menubar {
   padding: 5px;
   background-color: $headerbar;
   color: $headerbarText;
+  button {
+    @extend %buttonNude;
+  }
   &:backdrop {
     background-color: $headerbar_backdrop;
     color: $headerbarText_backdrop;
@@ -72,9 +130,10 @@ menubar {
   padding: 4px 8px;
   box-shadow: none;
 
-  &:hover {
+  &:hover { // samma som Shell-panelen
     box-shadow: $hoverShadow;
-    color: $brightText;
+    color: $darkText;
+    background-color: $brightText_HoverBackground;
   }
 
   &:disabled {
@@ -85,7 +144,8 @@ menubar {
 }
 
 headerbar {
-  border-radius: 6px 6px 0 0;
+  border-radius: 5px 5px 0 0; // något mindre kurva för att nå ut till spetsarna
+//  margin: -2px -2px 0 -2px; // kompensera mot grabkanten, men 0 nedåt - vi vill ju smälta ihop med tabbaren
   font-size: 1.1em;
   .maximized &,
   .fullscreen &,
@@ -96,6 +156,11 @@ headerbar {
   .tiled-bottom & {
     border-radius: 0; // i.o.m att vi rundat här också så måste vi återställa vid maximerat osv
   }
+}
+
+// upp höger ner vänster
+menubar {
+  //margin: 0 -2px 0 -2px; // kompensera mot grabkanterna
 }
 
 menu,
@@ -186,14 +251,23 @@ popover>contents.background {
   background-color: $headerbar_backdrop;
   color: $headerbarText;
   font-size: 1em;
+  //margin: 0 -1px 2px -1px; // kompensera mot grabkanten, 0 uppåt men lite mer utrymme nedåt
+  border: 2px red none;
+  padding: 0 10px 0 10px;
+  box-shadow: inset 0 1px 2px -1px black;
+  button {
+    @extend %buttonNude;
+    }
   }
-  tab, button {
-    background-color: $headerbar_backdrop;
+  tab {
+    //background-color: $headerbar_backdrop;
+    background-color: transparent;
     color: $headerbarText_backdrop;
-    box-shadow: inset 1px 0 2px black;
+    //box-shadow: inset 0 1px 2px -1px black;
     border: none;
     border-radius: 0;
     padding: 5px;
+    //margin: 0 2px 0 0;
     &:checked {
       background-color: $headerbar;
       color: $headerbarText;
@@ -202,7 +276,7 @@ popover>contents.background {
       border-radius: $tabRadius;
     }
     &:checked:hover {
-      background-color: brighten($headerbar, 5%);
+      background-color: brighten($headerbar, 10%);
     }
     &:backdrop {
       background-color: $headerbar_backdrop;
@@ -223,18 +297,37 @@ notebook > header > tabs > arrow {
 }*/
 
 /*************************/
+window {
+  border: red solid 3px;
+}
 decoration {
   border: $windowBorder;
   border-radius: $roundCorners; // alla hörn rundade, mycket sexigare
   // FIXME: media-innehåll sticker ut en pixel i hörnen. Går att lösa fult med padding-bottom: .5px men då får man en tjock kant. Kanske om vi kör med dark växel tema så kan vi bara "utöka" bakgrundsfärgen
-  background-color: $headerbar;
-.csd & {
-    box-shadow: $windowShadow;
+  //padding-bottom: 3px; // kolla denna
+
+  //background-color: lighten($headerbar, 10%);
+  background-color: $headerbar_backdrop;
+  box-shadow: $windowShadow;
+  //padding: 0 -2px 0 -2px;
+  &:backdrop {
+    background-color: $headerbar_backdrop;
+    box-shadow: $windowShadow_backdrop; // undvik hoppande fönster genom att ha samma storlek på skuggor
+    transition: 200ms ease-out;
+  }
+.csd & { // var .csd
+    //box-shadow: $windowShadow;
+    //border: $grabBorder;
+    //background-color: transparent;
+    //border-radius: $roundCorners;
     &:backdrop {
-      box-shadow: $windowShadow_backdrop; // undvik hoppande fönster genom att ha samma storlek på skuggor
-      transition: 200ms ease-out;
+      //box-shadow: $windowShadow_backdrop; // undvik hoppande fönster genom att ha samma storlek på skuggor
+      //transition: 200ms ease-out;
     }
   }
+.ssd & {
+  //border: $windowBorder;
+}
   .maximized &,
   .fullscreen &,
   .tiled &,
@@ -246,8 +339,35 @@ decoration {
   }
 }
 
-.view,
-.content-view {
-  background-color: $view;
-  margin-bottom: 1px;
+view { // okänd...
+  border: 2px black solid;
+}
+content-view { // okänd...
+  border: 2px blue solid;
+}
+textview { // okänd...
+  border: 2px green solid;
+}
+grid { // ex: mapp-innehåll, bildområde
+  //border: 2px white solid;
+  //margin: 0 -2px 0 -2px;
+  button {
+    @extend %button;
+  }
+}
+viewport { // ex: platser, kategorier, inställningar
+  border: 2px red none;
+  background-color: $headerbar;
+  //margin: 0 -2px 0 -2px;
+  color: $headerbarText;
+  button {
+    @extend %button;
+  }
+  &:backdrop {
+    background-color: $headerbar_backdrop;
+  }
+}
+overlay,
+textview border { // okänd...
+  background-color: green;
 }
