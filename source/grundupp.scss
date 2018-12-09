@@ -4,20 +4,22 @@
 *       värden          *
 ************************/
 
-$lightBase: rgb(230,230,230);
+$lightBase: rgb(230,235,240);
 $darkBase: rgb(45,50,55);
 $view: rgb(200,0,0);
 $headerbar: rgb(45,50,55);
-$headerbarText: rgb(240,240,240);
-$button: rgb(240,240,240);
-$brightText: rgb(240,240,240);
+$headerbarText: rgb(245,245,245);
+$button: rgb(240,245,250);
+$brightText: rgb(245,245,245);
 $darkText: rgb(30,30,30);
 $lightButton: rgb(185,190,195);
-$hoverShadow: 0 0 3px rgba(0,0,0,.5);
+$hoverShadow: 0 0 3px rgba(0,5,10,.5);
 //$windowBorder: .5px solid darken($headerbar, 10%);
-$windowBorder: .5px solid rgba(0,0,0,.5);
+$windowBorder: .5px solid rgba(0,5,10,.5);
 $grabBorder: 3px solid rgba(200,0,0,0);
-$windowShadow: 0 0 10px rgba(0,0,0,.7);
+$windowShadow: 0 0 10px rgba(0,5,10,.7);
+$headerbar_buttonsAndText_shadow: 0 1px 2px rgba(0,0,0,.8);
+$headerbar_buttonsAndText_bevel: 0 1px 1px rgba(250,250,250,.4);
 
 $roundCorners: 6px 6px 6px 6px;
 $tabRadius: 0 0 6px 6px;
@@ -26,20 +28,20 @@ $tabShadow: 1px 0 2px black;
 
 // hover...
 $brightText_Hover: $darkText;
-$brightText_HoverBackground: rgb(190,190,190);
+$brightText_HoverBackground: rgb(185,190,195);
 
 
 // Backdrop-färger... Gör dom mörkare osv, tänker mig lite shade-effekt för att framhäva fokuserat fönster
 
 $lightBase_backdrop: darken($lightBase, 10%);
 $darkBase_backdrop: rgb(45,50,55);
-$view_backdrop: rgb(200,200,200);
+$view_backdrop: rgb(195,200,205);
 $headerbar_backdrop: darken($headerbar, 5%);
 $headerbarText_backdrop: darken($headerbarText, 5%);
-$button_backdrop: rgb(240,240,240);
-$brightText_backdrop: rgb(240,240,240);
+$button_backdrop: rgb(235,240,245);
+$brightText_backdrop: rgb(235,240,245);
 $darkText_backdrop: darken($darkText, 0%); // det räcker med att bakgrunden blir dämpad
-$windowShadow_backdrop: 0 0 10px rgba(0,0,0,.3); // kör samma storlek för annars så hoppar fönstrena
+$windowShadow_backdrop: 0 0 10px rgba(0,5,10,.3); // kör samma storlek för annars så hoppar fönstrena
 
 
 // Insensitive-färger...
@@ -50,12 +52,12 @@ $brightText_insensitive: darken($brightText, 20%);
 %button {
       background-color: $lightButton;
       border: .5px solid rgba(0,0,0,1);
-      border-radius: 6px;
+      border-radius: $roundCorners;
       font-weight: 400;
       font-size: 1em;
       color: #222;
-      text-shadow: 0 1px 1px rgba(255,255,255,.55);
-      icon-shadow: 0 1px 1px rgba(255,255,255,.55);
+      text-shadow: $headerbar_buttonsAndText_bevel;
+      icon-shadow: $headerbar_buttonsAndText_bevel;
       padding: 3px 5px 3px 5px;
       box-shadow: $hoverShadow;
       margin: 2px;
@@ -64,8 +66,8 @@ $brightText_insensitive: darken($brightText, 20%);
       }
       &:disabled {
         background-color: transparent;
-        text-shadow: 0 1px 1px rgba(255,255,255,.15);
-        icon-shadow: 0 1px 1px rgba(255,255,255,.15);
+        text-shadow: 0 1px 1px rgba(245,250,255,.15);
+        icon-shadow: 0 1px 1px rgba(245,250,255,.15);
         box-shadow: none;
       }
     }
@@ -76,8 +78,8 @@ $brightText_insensitive: darken($brightText, 20%);
   font-size: 1em;
   padding: 3px 5px 3px 5px;
   font-weight: 400;
-  text-shadow: 0 1px 1px rgba(0,0,0,.55);
-  icon-shadow: 0 1px 1px rgba(0,0,0,.55);
+  text-shadow: $headerbar_buttonsAndText_shadow;
+  icon-shadow: $headerbar_buttonsAndText_shadow;
   box-shadow: none;
   color: $headerbarText;
   margin: 2px;
@@ -85,12 +87,57 @@ $brightText_insensitive: darken($brightText, 20%);
       background-color: lighten($lightButton, 10%);
       box-shadow: $hoverShadow;
       color: #222;
-      text-shadow: 0 1px 1px rgba(255,255,255,.55);
-      icon-shadow: 0 1px 1px rgba(255,255,255,.55);
+      text-shadow: $headerbar_buttonsAndText_bevel;
+      icon-shadow: $headerbar_buttonsAndText_bevel;
     }
     &:disabled {
       color: darken($headerbarText, 50%);
     }
+}
+%row_and_HoverRow {
+  background-color: transparent;
+  border: none;
+  border-radius: none;
+  font-size: 1em;
+  //padding: 3px 5px 3px 5px;
+  font-weight: 400;
+  text-shadow: $headerbar_buttonsAndText_shadow;
+  icon-shadow: $headerbar_buttonsAndText_shadow;
+  box-shadow: none;
+  color: $headerbarText;
+  margin: 2px;
+  &:hover {
+    background-color: lighten($lightButton, 10%);
+    box-shadow: $hoverShadow;
+    color: $darkText;
+    text-shadow: $headerbar_buttonsAndText_bevel;
+    icon-shadow: $headerbar_buttonsAndText_bevel;
+  }
+  &:disabled {
+    color: darken($headerbarText, 50%);
+  }
+}
+%selectedRow_and_HoverSelectedRow {
+  background-color: $lightButton;
+  border: none;
+  border-radius: none;
+  font-weight: 400;
+  font-size: 1em;
+  color: $darkText;
+  text-shadow: $headerbar_buttonsAndText_bevel;
+  icon-shadow: $headerbar_buttonsAndText_bevel;
+  //padding: 3px 5px 3px 5px;
+  box-shadow: $hoverShadow;
+  margin: 2px;
+  &:hover {
+    background-color: lighten($lightButton, 10%);
+  }
+  &:disabled {
+    background-color: transparent;
+    text-shadow: none;
+    icon-shadow: none;
+    box-shadow: none;
+  }
 }
 
 /************************
@@ -113,11 +160,27 @@ button {
   @extend %button;
 }
 
+separator {
+  background-color: $headerbar;
+  color: none;
+  border-style: none;
+  min-width: .5px;
+  min-height: .5px;
+  width: 0px;
+  height: 0px;
+  -gtk-icon-source: none; // tar bort snusk-stil
+  &:backdrop {
+    background-color: $headerbar_backdrop;
+  }
+}
+
 headerbar,
 menubar {
   padding: 5px;
   background-color: $headerbar;
   color: $headerbarText;
+  text-shadow: $headerbar_buttonsAndText_shadow;
+  icon-shadow: $headerbar_buttonsAndText_shadow;
   button {
     @extend %buttonNude;
   }
@@ -250,6 +313,7 @@ popover>contents.background {
   tabs {
   background-color: $headerbar_backdrop;
   color: $headerbarText;
+  text-shadow: $headerbar_buttonsAndText_shadow;
   font-size: 1em;
   //margin: 0 -1px 2px -1px; // kompensera mot grabkanten, 0 uppåt men lite mer utrymme nedåt
   border: 2px red none;
@@ -266,7 +330,7 @@ popover>contents.background {
     //box-shadow: inset 0 1px 2px -1px black;
     border: none;
     border-radius: 0;
-    padding: 5px;
+    padding: 2px 5px 2px 5px;
     //margin: 0 2px 0 0;
     &:checked {
       background-color: $headerbar;
@@ -279,7 +343,7 @@ popover>contents.background {
       background-color: brighten($headerbar, 10%);
     }
     &:backdrop {
-      background-color: $headerbar_backdrop;
+      background-color: transparent;
       color: $headerbarText_backdrop;
       border: none;
       border-radius: 0;
@@ -338,12 +402,69 @@ decoration {
     border-radius: 0;
   }
 }
+/*****************
+* window buttons *
+*****************/
+button.titlebutton {
+  min-width: 10px;
+  min-height: 10px;
+  padding: 0;
+  border: .5px solid black;
+  border-radius: 100%;
+  box-shadow: $headerbar_buttonsAndText_shadow;
+  icon-shadow: 0 1px 1px rgba(245,250,255,.0);
+  color: transparent;
+  &.close {
+    background-color: rgba(125,130,135,1);
+    &:hover {
+        color: $darkText;
+    }
+    &:backdrop {
+      background-color: rgba(125,130,135,.5);
+    }
+  }
+  &.minimize {
+    background-color: rgba(205,210,215,1);
+    &:hover {
+        color: $darkText;
+    }
+    &:backdrop {
+      background-color: rgba(205,210,215,.5);
+    }
+  }
+  &.maximize {
+    background-color: rgba(175,180,185,1);
+    &:hover {
+        color: $darkText;
+    }
+    &:backdrop {
+      background-color: rgba(175,180,185,.5);
+    }
+  }
+}
+
+.rubberband,
+rubberband {
+    %rubberband {
+  border: 1px solid green;
+  background-color: rgba(200,50,99,.5);
+  }
+}
 
 view { // okänd...
   border: 2px black solid;
 }
-content-view { // okänd...
-  border: 2px blue solid;
+.content-view { // okänd...
+  background-color: blue;
+  color: green;
+
+  &:hover { -gtk-icon-filter: brightness(1.2); }
+
+  &:backdrop { background-color: red; }
+
+  rubberband, .rubberband {
+    @extend %rubberband;
+  }
 }
 textview { // okänd...
   border: 2px green solid;
@@ -354,7 +475,22 @@ grid { // ex: mapp-innehåll, bildområde
   button {
     @extend %button;
   }
+  color: $darkText;
+  //background-color: blue;
+  &:hover {
+    -gtk-icon-filter: brightness(.2);
+    }
+  &:selected {
+    color: red;
+  }
+  &:backdrop {
+    //background-color: red;
+    }
+    rubberband, .rubberband {
+      @extend %rubberband;
+    }
 }
+
 viewport { // ex: platser, kategorier, inställningar
   border: 2px red none;
   background-color: $headerbar;
@@ -363,11 +499,69 @@ viewport { // ex: platser, kategorier, inställningar
   button {
     @extend %button;
   }
+  /*separator {
+    background-color: green;
+    color: yellow;
+  }*/
   &:backdrop {
     background-color: $headerbar_backdrop;
   }
 }
+
+  /***********
+ * Sidebar *
+ ***********/
+.sidebar {
+list {
+  //padding-left: 10px;
+  margin: 0 -2px 5px -2px;
+  //background-color: $headerbar_backdrop;
+  background-color: transparent;
+}
+row {
+  text-shadow: $headerbar_buttonsAndText_shadow;
+  icon-shadow: $headerbar_buttonsAndText_shadow;
+  image.sidebar-icon {
+    margin-right: 3px;
+    background-color: transparent;
+    padding: 7px;
+  }
+  @extend %row_and_HoverRow; // denna tar upp ovald + ovald hover
+  &:selected { // denna tar upp vald + vald hover
+    @extend %selectedRow_and_HoverSelectedRow;
+    image.sidebar-icon {
+      //color: $darkText;
+      background-color: lighten($lightButton, 10%);
+      //icon-shadow: $headerbar_buttonsAndText_bevel;
+    }
+  }
+  > label {
+    padding-left: 6px;
+    padding-right: 6px;
+    color: white;
+    background-color: green;
+    }
+    &.needs-attention > label {
+      background-color: white;
+      background-size: 6px 6px, 0 0;
+      box-shadow: 0 0 3px black;
+    }
+  }
+}
+
+
+
 overlay,
 textview border { // okänd...
   background-color: green;
 }
+
+
+/*.sidebar {
+  separator {
+      background-color: red;
+  }
+}
+separator.sidebar {
+  background-color: yellow;
+}*/
